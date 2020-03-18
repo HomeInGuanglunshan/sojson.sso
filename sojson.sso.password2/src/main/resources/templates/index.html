@@ -1,0 +1,10 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>PASSWORD 2 SSO</title>
+<body>
+<h3>当前登录用户：<span th:text="${#authentication.name}"></span><span th:text="${#authentication.authorities}"></span> 
+| <a th:href="@{/logout}">退出</a></h3>
+</body>
+</html>

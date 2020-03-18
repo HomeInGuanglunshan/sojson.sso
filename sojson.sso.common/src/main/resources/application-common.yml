@@ -1,0 +1,2 @@
+#如果authorization server没有启动，则client内部的httpclient不能通过security.oauth2.resource.jwt.key-uri找到jwt的signingKey，client也就无法启动。故在此明确指定signingKey————权宜之计而已
+security.oauth2.resource.jwt.key-value: sojson.sso

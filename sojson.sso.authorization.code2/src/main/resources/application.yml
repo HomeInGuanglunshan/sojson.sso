@@ -1,0 +1,76 @@
+server:
+  port: 20301
+  servlet:
+    #context-path: /authorization.code2
+    session:
+      timeout: 1800
+      cookie:
+        name: v_v-auth-code2
+
+spring:
+  application:
+    name: sojson.sso.authorization.code2
+  profiles:
+    active: common
+  thymeleaf:
+    # 使用html模板
+    mode: HTML
+    # 编译缓存，开发环境写false，更新页面可马上看到效果；生产环境用true，速度快一些，但更新页面后需重启应用才能看到效果
+    cache: false
+    # refer to: https://www.jianshu.com/p/bb3a3b388c4e
+  session:
+    store-type: redis
+    redis:
+      namespace: sojson.sso
+      #flush-mode: on_save
+  redis:
+    host: localhost
+    port: 6379
+    timeout: 10000
+    database: 0
+    password:
+    lettuce:
+      pool:
+        max-active: 300
+        max-idle: 100
+        max-wait: -1
+        min-idle: 20
+      shutdown-timeout: 10000
+
+eureka:
+  client:
+    registry-fetch-interval-seconds: 5
+    service-url:
+      defaultZone: http://admin:123456@127.0.0.1:20100/eureka/
+  instance:
+    preferIpAddress: true
+    instance-id: ${spring.cloud.client.ip-address}:${server.port}
+
+ribbon:
+  ReadTimeout: 60000
+  ConnnectionTimeout: 60000
+
+feign:
+  hystrix:
+    enabled: true
+
+#如果feign开启了feign，必须加上这句，否则在RequestInterceptor中，RequestContextHolder.getRequestAttributes() == null，无法进行下一步的HttpServletRequest获取
+#refer to: https://www.cnblogs.com/lori/p/11128229.html
+hystrix.command.default.execution.isolation.strategy: SEMAPHORE 
+
+#解决频繁出现的请求超时问题
+hystrix.command.default.execution.isolation.thread.timeoutInMilliseconds: 60000
+
+security:
+  oauth2:
+    client:
+      client-id: AuthorizationCode2
+      client-secret: 20301
+      access-token-uri: http://localhost:20200/oauth/token
+      user-authorization-uri: http://localhost:20200/oauth/authorize
+    resource:
+      #如果注释掉，则报：Missing tokenInfoUri and userInfoUri and there is no JWT verifier key
+      #security.oauth2.resource.jwt.key-value存在的话，则可以注释掉
+      jwt:
+        #请求这个路径需要的账号密码是security.oauth2.client.client-id和security.oauth2.client.client-secret
+        key-uri: http://localhost:20200/oauth/token_key

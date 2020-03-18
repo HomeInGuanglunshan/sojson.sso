@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>AUTHORIZATION SERVER</title>
+<body>
+<h3>当前登录用户：<span th:text="${#authentication.name}"></span><span th:text="${#authentication.authorities}"></span>
+ | <a th:href="@{/logout}">退出</a></h3>
+<h3>入口：</h3>
+<h3><a href="http://localhost:20300/">AUTHORIZATION CODE SSO</a></h3>
+<h3><a href="http://localhost:20301/">AUTHORIZATION CODE 2 SSO</a></h3>
+</body>
+</html>

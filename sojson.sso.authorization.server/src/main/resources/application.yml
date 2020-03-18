@@ -1,0 +1,67 @@
+server:
+  port: 20200
+  servlet:
+    session:
+      timeout: 1800
+      cookie:
+        name: v_v-s-baidu
+
+spring:
+  application:
+    name: sojson.sso.authorization.server
+  profiles:
+    active: common
+  thymeleaf:
+    # 使用html模板
+    mode: HTML
+    # 编译缓存，开发环境写false，更新页面可马上看到效果；生产环境用true，速度快一些，但更新页面后需重启应用才能看到效果
+    cache: false
+    # refer to: https://www.jianshu.com/p/bb3a3b388c4e
+  session:
+    store-type: redis
+    redis:
+      namespace: sojson.sso
+      #flush-mode: on_save
+  redis:
+    host: localhost
+    port: 6379
+    timeout: 10000
+    database: 0
+    password:
+    lettuce:
+      pool:
+        max-active: 300
+        max-idle: 100
+        max-wait: -1
+        min-idle: 20
+      shutdown-timeout: 10000
+  datasource:
+    driverClassName: com.mysql.jdbc.Driver
+    url: jdbc:mysql://127.0.0.1:3306/shiro_demo?useUnicode=true&characterEncoding=utf-8&useSSL=false
+    username: root
+    password: 1234
+    initialSize: 3 
+    minIdle: 2
+    maxActive: 60
+    maxWait: 60000
+    timeBetweenEvictionRunsMillis: 60000
+    minEvictableIdleTimeMillis: 30000
+    validationQuery: SELECT 'x'
+    testWhileIdle: true
+    testOnBorrow: false
+    testOnReturn: false
+    poolPreparedStatements: true
+    maxPoolPreparedStatementPerConnectionSize: 20
+    removeAbandoned: true
+    removeAbandonedTimeout: 120
+    logAbandoned: false
+    filters: stat
+
+eureka:
+  client:
+    registry-fetch-interval-seconds: 5
+    service-url:
+      defaultZone: http://admin:123456@127.0.0.1:20100/eureka/
+  instance:
+    preferIpAddress: true
+    instance-id: ${spring.cloud.client.ip-address}:${server.port}
