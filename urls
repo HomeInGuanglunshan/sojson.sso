@@ -3,6 +3,7 @@ http://localhost:20100/
 
 #Authorization Server
 http://localhost:20200/
+http://localhost:20200/oauth/login #又一个登录入口，和 http://localhost:20200/login 没什么区别
 http://localhost:20200/userInfo
 
 #AuthorizationCode
